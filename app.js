@@ -2,7 +2,7 @@ if (process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
 
-
+const port = process.env.PORT || 3000;
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -20,11 +20,11 @@ const userRoutes = require('./routes/users');
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 
-mongoose.connect('mongodb://localhost:27017/yelp-camp', {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
+mongoose.connect(process.env.DATABASE_URL, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
 });
 
 const db = mongoose.connection;
@@ -93,8 +93,8 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err })
 })
 
-app.listen(3000, () => {
-    console.log('Serving on port 3000')
+app.listen(port, () => {
+    console.log(`Serving on port ${port}`)
 })
 
 
